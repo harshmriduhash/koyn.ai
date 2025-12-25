@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 // IMPORTANT: API_KEY must be set in the environment variables.
@@ -14,15 +13,15 @@ if (API_KEY) {
 } else {
   console.warn(
     "API_KEY for Gemini is not set in process.env.API_KEY. " +
-    "Boilerplate code generation will use fallback responses. " +
-    "Ensure the API_KEY is configured in your environment."
+      "Boilerplate code generation will use fallback responses. " +
+      "Ensure the API_KEY is configured in your environment."
   );
 }
 
 export async function generateBoilerplateCode(
   modelName: string,
   taskDescription: string,
-  language: 'javascript' | 'python' | 'curl'
+  language: "javascript" | "python" | "curl"
 ): Promise<string> {
   if (!ai) {
     return Promise.resolve(`// Gemini API Key not configured or invalid. Cannot generate live code.
@@ -59,19 +58,32 @@ For Python, use the 'requests' library. For JavaScript, use 'fetch' and modern a
     return response.text;
   } catch (error) {
     console.error("Error generating boilerplate code with Gemini:", error);
-    return `// Error generating code via Gemini: ${error instanceof Error ? error.message : String(error)}
+    return `// Error generating code via Gemini: ${
+      error instanceof Error ? error.message : String(error)
+    }
 //
 // Fallback example for ${language} to use model '${modelName}' for task '${taskDescription}':
 ${getFallbackCode(language, modelName, taskDescription)}`;
   }
 }
 
-function getFallbackCode(language: string, modelName: string, taskDescription: string): string {
-  const exampleInput = taskDescription.toLowerCase().includes('image') ? '"https://example.com/image.jpg"' : taskDescription.toLowerCase().includes('audio') ? '"path/to/audio.wav"' : '"Your example prompt here"';
-  const inputKey = taskDescription.toLowerCase().includes('image') ? 'image_url' : taskDescription.toLowerCase().includes('audio') ? 'audio_file_path' : 'prompt';
+function getFallbackCode(
+  language: string,
+  modelName: string,
+  taskDescription: string
+): string {
+  const exampleInput = taskDescription.toLowerCase().includes("image")
+    ? '"https://example.com/image.jpg"'
+    : taskDescription.toLowerCase().includes("audio")
+    ? '"path/to/audio.wav"'
+    : '"Your example prompt here"';
+  const inputKey = taskDescription.toLowerCase().includes("image")
+    ? "image_url"
+    : taskDescription.toLowerCase().includes("audio")
+    ? "audio_file_path"
+    : "prompt";
 
-
-  if (language === 'python') {
+  if (language === "python") {
     return `import requests
 import json
 
@@ -113,7 +125,7 @@ def call_model():
 if __name__ == "__main__":
     call_model()`;
   }
-  if (language === 'javascript') {
+  if (language === "javascript") {
     return `const API_URL = "https://your-api-base.com/api/v1/models/${modelName}/predict";
 const API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
 
@@ -154,7 +166,7 @@ async function callModel() {
 
 callModel();`;
   }
-  if (language === 'curl') {
+  if (language === "curl") {
     return `curl -X POST \\
   "https://your-api-base.com/api/v1/models/${modelName}/predict" \\
   -H "Authorization: Bearer YOUR_API_KEY_HERE" \\
