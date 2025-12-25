@@ -1,0 +1,6 @@
+{
+  "name": "Koyn.AI",
+  "description": "A platform to discover, explore, and integrate various AI models. Users can browse models, view details, try interactive playgrounds, and generate boilerplate code for integration. Features user authentication, model filtering, reviews, and developer tools.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
